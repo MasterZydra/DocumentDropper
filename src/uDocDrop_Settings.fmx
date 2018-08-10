@@ -1,0 +1,29 @@
+object frameDocDropSettings: TframeDocDropSettings
+  Size.Width = 572.000000000000000000
+  Size.Height = 353.000000000000000000
+  Size.PlatformDefault = False
+  object tabCtrlSettings: TTabControl
+    Align = Client
+    Size.Width = 572.000000000000000000
+    Size.Height = 353.000000000000000000
+    Size.PlatformDefault = False
+    TabIndex = 0
+    TabOrder = 0
+    TabPosition = PlatformDefault
+    Sizes = (
+      572s
+      327s)
+    object tabItmCommon: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = True
+      Size.Width = 69.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'Common'
+    end
+  end
+end
