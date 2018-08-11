@@ -20,7 +20,27 @@
             <Required>True</Required>
         </DeployFile>
     </ItemGroup>
-    <ItemGroup Condition="'$(Platform)'=='Win64'"/>
+    <ItemGroup Condition="'$(Platform)'=='Win64'">
+        <DeployFile Include="Win64\Debug\DocumentDropper.rsm" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>DocumentDropper\</RemoteDir>
+            <RemoteName>DocumentDropper.rsm</RemoteName>
+            <DeployClass>DebugSymbols</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+        </DeployFile>
+        <DeployFile Include="Win64\Debug\DocumentDropper.exe" Condition="'$(Config)'=='Debug'">
+            <RemoteDir>DocumentDropper\</RemoteDir>
+            <RemoteName>DocumentDropper.exe</RemoteName>
+            <DeployClass>ProjectOutput</DeployClass>
+            <Operation>0</Operation>
+            <LocalCommand/>
+            <RemoteCommand/>
+            <Overwrite>True</Overwrite>
+            <Required>True</Required>
+        </DeployFile>
+    </ItemGroup>
     <ItemGroup Condition="'$(Platform)'=='OSX32'">
         <DeployFile Include="OSX32\Debug\DocumentDropper" Condition="'$(Config)'=='Debug'">
             <RemoteDir>DocumentDropper.app\Contents\MacOS\</RemoteDir>

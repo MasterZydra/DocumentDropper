@@ -114,8 +114,8 @@ object FrmDocumentDropper: TFrmDocumentDropper
         DefaultItemStyles.GroupHeaderStyle = ''
         DefaultItemStyles.GroupFooterStyle = ''
         OnKeyDown = lstbxSourcesKeyDown
-        Viewport.Width = 630.000000000000000000
-        Viewport.Height = 298.000000000000000000
+        Viewport.Width = 634.000000000000000000
+        Viewport.Height = 302.000000000000000000
       end
       object btnSrcAddFiles: TButton
         Align = Bottom
@@ -176,8 +176,8 @@ object FrmDocumentDropper: TFrmDocumentDropper
         DefaultItemStyles.GroupHeaderStyle = ''
         DefaultItemStyles.GroupFooterStyle = ''
         OnKeyDown = lstbxDestinationsKeyDown
-        Viewport.Width = 630.000000000000000000
-        Viewport.Height = 326.000000000000000000
+        Viewport.Width = 634.000000000000000000
+        Viewport.Height = 330.000000000000000000
       end
       object btnDestAddDir: TButton
         Align = Bottom
@@ -223,8 +223,8 @@ object FrmDocumentDropper: TFrmDocumentDropper
         DefaultItemStyles.GroupHeaderStyle = ''
         DefaultItemStyles.GroupFooterStyle = ''
         OnKeyDown = lstbxRulesKeyDown
-        Viewport.Width = 630.000000000000000000
-        Viewport.Height = 326.000000000000000000
+        Viewport.Width = 634.000000000000000000
+        Viewport.Height = 330.000000000000000000
       end
       object edtRule: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]

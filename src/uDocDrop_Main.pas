@@ -4,6 +4,7 @@ interface
 
 uses
   uDocDrop_Settings,
+  uDocDrop_Utils,
   System.IniFiles, System.IOUtils,
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
@@ -50,10 +51,6 @@ type
   private
     { Private-Deklarationen }
     mSettings: TframeDocDropSettings;
-    function GetListBoxToString(const pListBox: TListBox): string;
-    procedure FillListBox(const pListBox: TListBox; const pContent: string);
-    procedure Split(const pDelimiter: Char; const pText: string;
-      const pStrings: TStrings) ;
   public
     { Public-Deklarationen }
   end;
@@ -72,8 +69,6 @@ var
   function MatchPattern(element, pattern: PChar): Boolean;
 
     function IsPatternWild(pattern: PChar): Boolean;
-    var
-      t: Integer;
     begin
       Result := StrScan(pattern, '*') <> nil;
       if not Result then Result := StrScan(pattern, '?') <> nil;
@@ -177,7 +172,7 @@ var
 
           if Matchstrings(lFile, lRuleSrcDir) then
           begin
-            TFile.Move(pFile, IncludeTrailingBackslash(lDirectory) + lFile);
+            TFile.Move(pFile, IncludeTrailingPathDelimiter(lDirectory) + lFile);
             Exit();
           end;
         end;
@@ -251,12 +246,6 @@ begin
   end;
 end;
 
-procedure TFrmDocumentDropper.FillListBox(const pListBox: TListBox;
-  const pContent: string);
-begin
-  Split(';', pContent, pListBox.Items);
-end;
-
 procedure TFrmDocumentDropper.FormCreate(Sender: TObject);
 begin
   mSettings := TframeDocDropSettings.Create(Self);
@@ -267,20 +256,6 @@ end;
 procedure TFrmDocumentDropper.FormDestroy(Sender: TObject);
 begin
   mSettings.Free();
-end;
-
-function TFrmDocumentDropper.GetListBoxToString(
-  const pListBox: TListBox): string;
-var
-  i: Integer;
-begin
-  for i := 0 to pListBox.Items.Count - 1 do
-  begin
-    if i > 0 then
-      Result := Result + ';' + pListBox.Items[i]
-    else
-      Result := pListBox.Items[i];
-  end;
 end;
 
 procedure TFrmDocumentDropper.lstbxDestinationsKeyDown(Sender: TObject;
@@ -305,15 +280,6 @@ begin
   if Key = Ord(#8) then
     if lstbxSources.ItemIndex <> -1 then
       lstbxSources.Items.Delete(lstbxSources.ItemIndex);
-end;
-
-procedure TFrmDocumentDropper.Split(const pDelimiter: Char; const pText: string;
-  const pStrings: TStrings);
-begin
-  pStrings.Clear;
-  pStrings.Delimiter       := pDelimiter;
-  pStrings.StrictDelimiter := True;
-  pStrings.DelimitedText   := pText;
 end;
 
 end.
