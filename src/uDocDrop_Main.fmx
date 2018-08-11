@@ -15,10 +15,12 @@ object FrmDocumentDropper: TFrmDocumentDropper
     Size.Width = 640.000000000000000000
     Size.Height = 390.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 0
+    TabIndex = 3
     TabOrder = 1
     TabPosition = PlatformDefault
     Sizes = (
+      640s
+      364s
       640s
       364s
       640s
@@ -29,13 +31,15 @@ object FrmDocumentDropper: TFrmDocumentDropper
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 69.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
       Text = 'Common'
+      ExplicitSize.cx = 69.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
       object btnSaveSelections: TButton
         Align = Top
         Margins.Left = 3.000000000000000000
@@ -66,6 +70,21 @@ object FrmDocumentDropper: TFrmDocumentDropper
         Text = 'Load selections'
         OnClick = btnLoadSelectionClick
       end
+      object btnProcess: TButton
+        Align = Top
+        Margins.Left = 3.000000000000000000
+        Margins.Top = 20.000000000000000000
+        Margins.Right = 3.000000000000000000
+        Margins.Bottom = 3.000000000000000000
+        Position.X = 3.000000000000000000
+        Position.Y = 76.000000000000000000
+        Size.Width = 634.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        Text = 'Process'
+        OnClick = btnProcessClick
+      end
     end
     object tbitmSelectSources: TTabItem
       CustomIcon = <
@@ -78,6 +97,8 @@ object FrmDocumentDropper: TFrmDocumentDropper
       StyleLookup = ''
       TabOrder = 0
       Text = 'Select Sources'
+      ExplicitSize.cx = 97.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
       object lstbxSources: TListBox
         Align = Client
         Margins.Left = 3.000000000000000000
@@ -138,6 +159,8 @@ object FrmDocumentDropper: TFrmDocumentDropper
       StyleLookup = ''
       TabOrder = 0
       Text = 'Select Destinations'
+      ExplicitSize.cx = 121.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
       object lstbxDestinations: TListBox
         Align = Client
         Margins.Left = 3.000000000000000000
@@ -170,6 +193,53 @@ object FrmDocumentDropper: TFrmDocumentDropper
         TabOrder = 1
         Text = 'Add directory...'
         OnClick = btnDestAddDirClick
+      end
+    end
+    object tbitmRules: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = True
+      Size.Width = 49.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'Rules'
+      ExplicitSize.cx = 49.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+      object lstbxRules: TListBox
+        Align = Client
+        Margins.Left = 3.000000000000000000
+        Margins.Top = 3.000000000000000000
+        Margins.Right = 3.000000000000000000
+        Margins.Bottom = 3.000000000000000000
+        Size.Width = 634.000000000000000000
+        Size.Height = 330.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        DisableFocusEffect = True
+        DefaultItemStyles.ItemStyle = ''
+        DefaultItemStyles.GroupHeaderStyle = ''
+        DefaultItemStyles.GroupFooterStyle = ''
+        OnKeyDown = lstbxRulesKeyDown
+        Viewport.Width = 630.000000000000000000
+        Viewport.Height = 326.000000000000000000
+      end
+      object edtRule: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Bottom
+        TabOrder = 1
+        Position.X = 3.000000000000000000
+        Position.Y = 339.000000000000000000
+        Margins.Left = 3.000000000000000000
+        Margins.Top = 3.000000000000000000
+        Margins.Right = 3.000000000000000000
+        Margins.Bottom = 3.000000000000000000
+        Size.Width = 634.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        OnKeyDown = edtRuleKeyDown
       end
     end
   end

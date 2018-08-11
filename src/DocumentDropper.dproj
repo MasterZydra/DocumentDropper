@@ -6,7 +6,7 @@
         <MainSource>DocumentDropper.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">OSX32</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>1103</TargetedPlatforms>
         <AppType>Application</AppType>
     </PropertyGroup>
