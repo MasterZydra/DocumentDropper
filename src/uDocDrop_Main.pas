@@ -10,8 +10,13 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.ListView, FMX.Layouts,
-  FMX.ListBox, FMX.TabControl, FMX.Edit;
+  FMX.ListBox, FMX.TabControl, FMX.Edit, FMX.ScrollBox, FMX.Memo;
 
+type
+  tRuleType = (rtStartsWith, rtEndsWith, rtContains, rtEquals);
+const
+  cRuleType: array[tRuleType] of string = (
+    'starts with...', 'ends with...', 'contains...', 'equals...');
 type
   TFrmDocumentDropper = class(TForm)
     OpenDialogFiles: TOpenDialog;
@@ -32,6 +37,12 @@ type
     tbitmRules: TTabItem;
     lstbxRules: TListBox;
     edtRule: TEdit;
+    tbitmRuleCreator: TTabItem;
+    btnAddRule: TButton;
+    lblRuleFilename: TLabel;
+    edtRuleSrc: TEdit;
+    cmbxRuleSrc: TComboBox;
+    memInfo: TMemo;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure btnSrcAddFilesClick(Sender: TObject);
@@ -48,9 +59,11 @@ type
       Shift: TShiftState);
     procedure lstbxRulesKeyDown(Sender: TObject; var Key: Word;
       var KeyChar: Char; Shift: TShiftState);
+    procedure btnAddRuleClick(Sender: TObject);
   private
     { Private-Deklarationen }
     mSettings: TframeDocDropSettings;
+    procedure FillRuleComboBox(const pComboBox: TComboBox);
   public
     { Public-Deklarationen }
   end;
@@ -100,6 +113,21 @@ begin
   StrPCopy(pSource, Source);
   StrPCopy(pPattern, pattern);
   Result := MatchPattern(pSource, pPattern);
+end;
+
+procedure TFrmDocumentDropper.btnAddRuleClick(Sender: TObject);
+var
+  lRuleType: tRuleType;
+  lRule: string;
+begin
+  lRuleType := tRuleType(cmbxRuleSrc.ItemIndex);
+  case lRuleType of
+    rtStartsWith: lRule := edtRuleSrc.Text + '*';
+    rtEndsWith:   lRule := '*' + edtRuleSrc.Text;
+    rtContains:   lRule := '*' + edtRuleSrc.Text + '*';
+    rtEquals:      lRule := edtRuleSrc.Text;
+  end;
+  lstbxRules.Items.Add(lRule);
 end;
 
 procedure TFrmDocumentDropper.btnDestAddDirClick(Sender: TObject);
@@ -170,9 +198,19 @@ var
           lRuleSrcDir := StringReplace(lRuleSrc, '%dest%', ExtractFileName(lDirectory), [rfIgnoreCase, rfReplaceAll]);
           lRuleDestDir := StringReplace(lRuleDest, '%dest%', ExtractFileName(lDirectory), [rfIgnoreCase, rfReplaceAll]);
 
-          if Matchstrings(lFile, lRuleSrcDir) then
+          lRuleSrcDir := StringReplace(lRuleSrcDir, '%year%', IntToStr(System.SysUtils.CurrentYear), [rfIgnoreCase, rfReplaceAll]);
+          lRuleDestDir := StringReplace(lRuleDestDir, '%year%', IntToStr(System.SysUtils.CurrentYear), [rfIgnoreCase, rfReplaceAll]);
+
+          if Matchstrings(lFile, lRuleSrcDir) or
+            Matchstrings(ExtractFileName(lDirectory), Copy(lRuleDestDir, 1, Pos(TPath.DirectorySeparatorChar, lRuleDest) - 1)) then
           begin
-            TFile.Move(pFile, IncludeTrailingPathDelimiter(lDirectory) + lFile);
+            if lRuleDest = '' then
+              TFile.Move(pFile, IncludeTrailingPathDelimiter(lDirectory) + lFile)
+            else
+            begin
+              TFile.Move(pFile, IncludeTrailingPathDelimiter(lDirectory) +
+                IncludeTrailingPathDelimiter(Copy(lRuleDestDir, Pos(TPath.DirectorySeparatorChar, lRuleDestDir) + 1, Length(lRuleDestDir))) + lFile);
+            end;
             Exit();
           end;
         end;
@@ -246,9 +284,23 @@ begin
   end;
 end;
 
+procedure TFrmDocumentDropper.FillRuleComboBox(const pComboBox: TComboBox);
+var
+  lRuleType: tRuleType;
+begin
+  pComboBox.Items.Clear();
+  for lRuleType := Low(tRuleType) to High(tRuleType) do
+  begin
+    pComboBox.Items.Add(cRuleType[lRuleType]);
+  end;
+  pComboBox.ItemIndex := 0;
+end;
+
 procedure TFrmDocumentDropper.FormCreate(Sender: TObject);
 begin
   mSettings := TframeDocDropSettings.Create(Self);
+
+  FillRuleComboBox(cmbxRuleSrc);
   //mSettings.Parent := Self;
   //mSettings.Align := TAlignLayout.Client;
 end;

@@ -15,10 +15,12 @@ object FrmDocumentDropper: TFrmDocumentDropper
     Size.Width = 640.000000000000000000
     Size.Height = 390.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 3
+    TabIndex = 1
     TabOrder = 1
     TabPosition = PlatformDefault
     Sizes = (
+      640s
+      364s
       640s
       364s
       640s
@@ -86,6 +88,80 @@ object FrmDocumentDropper: TFrmDocumentDropper
         OnClick = btnProcessClick
       end
     end
+    object tbitmRuleCreator: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = True
+      Size.Width = 86.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'Rule Creator'
+      ExplicitSize.cx = 86.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+      object btnAddRule: TButton
+        Position.X = 17.000000000000000000
+        Position.Y = 38.000000000000000000
+        Size.Width = 217.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        Text = 'Add Rule'
+        OnClick = btnAddRuleClick
+      end
+      object lblRuleFilename: TLabel
+        Margins.Left = 3.000000000000000000
+        Position.X = 19.000000000000000000
+        Position.Y = 10.000000000000000000
+        Size.Width = 54.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Filename'
+        TabOrder = 5
+      end
+      object edtRuleSrc: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 1
+        Position.X = 179.000000000000000000
+        Position.Y = 8.000000000000000000
+        Margins.Left = 3.000000000000000000
+        Size.Width = 100.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object cmbxRuleSrc: TComboBox
+        Margins.Left = 3.000000000000000000
+        Position.X = 75.000000000000000000
+        Position.Y = 8.000000000000000000
+        Size.Width = 102.000000000000000000
+        Size.Height = 22.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+      end
+      object memInfo: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        Lines.Strings = (
+          '%dest% --> Destination folder'
+          '%year% --> Current year'
+          ''
+          'Examples:'
+          'Starts with... %dest%_'
+          '--> move file in subfolder of destination'
+          '      if filename starts with subfolder name of one destination')
+        ReadOnly = True
+        Position.X = 16.000000000000000000
+        Position.Y = 70.000000000000000000
+        Size.Width = 577.000000000000000000
+        Size.Height = 195.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 6
+        Viewport.Width = 573.000000000000000000
+        Viewport.Height = 191.000000000000000000
+      end
+    end
     object tbitmSelectSources: TTabItem
       CustomIcon = <
         item
@@ -114,8 +190,8 @@ object FrmDocumentDropper: TFrmDocumentDropper
         DefaultItemStyles.GroupHeaderStyle = ''
         DefaultItemStyles.GroupFooterStyle = ''
         OnKeyDown = lstbxSourcesKeyDown
-        Viewport.Width = 634.000000000000000000
-        Viewport.Height = 302.000000000000000000
+        Viewport.Width = 630.000000000000000000
+        Viewport.Height = 298.000000000000000000
       end
       object btnSrcAddFiles: TButton
         Align = Bottom
@@ -176,8 +252,8 @@ object FrmDocumentDropper: TFrmDocumentDropper
         DefaultItemStyles.GroupHeaderStyle = ''
         DefaultItemStyles.GroupFooterStyle = ''
         OnKeyDown = lstbxDestinationsKeyDown
-        Viewport.Width = 634.000000000000000000
-        Viewport.Height = 330.000000000000000000
+        Viewport.Width = 630.000000000000000000
+        Viewport.Height = 326.000000000000000000
       end
       object btnDestAddDir: TButton
         Align = Bottom
@@ -199,7 +275,7 @@ object FrmDocumentDropper: TFrmDocumentDropper
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 49.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
@@ -223,8 +299,8 @@ object FrmDocumentDropper: TFrmDocumentDropper
         DefaultItemStyles.GroupHeaderStyle = ''
         DefaultItemStyles.GroupFooterStyle = ''
         OnKeyDown = lstbxRulesKeyDown
-        Viewport.Width = 634.000000000000000000
-        Viewport.Height = 330.000000000000000000
+        Viewport.Width = 630.000000000000000000
+        Viewport.Height = 326.000000000000000000
       end
       object edtRule: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
