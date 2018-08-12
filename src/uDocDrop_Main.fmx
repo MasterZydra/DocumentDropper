@@ -15,7 +15,7 @@ object FrmDocumentDropper: TFrmDocumentDropper
     Size.Width = 640.000000000000000000
     Size.Height = 390.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 1
+    TabIndex = 2
     TabOrder = 1
     TabPosition = PlatformDefault
     Sizes = (
@@ -92,7 +92,7 @@ object FrmDocumentDropper: TFrmDocumentDropper
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 86.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
@@ -166,7 +166,7 @@ object FrmDocumentDropper: TFrmDocumentDropper
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 97.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False

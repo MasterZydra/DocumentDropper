@@ -143,6 +143,7 @@ procedure TFrmDocumentDropper.btnLoadSelectionClick(Sender: TObject);
 var
   lIniFile: TIniFile;
 begin
+  OpenDialogLoad.Filter := 'Document Dropper Settings (*.dds)|*.dds';
   if OpenDialogLoad.Execute() then
   begin
     lIniFile := TIniFile.Create(OpenDialogLoad.FileName);
@@ -241,6 +242,7 @@ procedure TFrmDocumentDropper.btnSaveSelectionsClick(Sender: TObject);
 var
   lIniFile: TIniFile;
 begin
+  SaveDialog.Filter := 'Document Dropper Settings (*.dds)|*.dds';
   if SaveDialog.Execute() then
   begin
     lIniFile := TIniFile.Create(SaveDialog.FileName);
@@ -267,6 +269,7 @@ procedure TFrmDocumentDropper.btnSrcAddFilesClick(Sender: TObject);
 var
   lFile: string;
 begin
+  OpenDialogFiles.Filter := 'All files|*.*';
   if OpenDialogFiles.Execute() then
   begin
     for lFile in OpenDialogFiles.Files do
@@ -299,8 +302,8 @@ end;
 procedure TFrmDocumentDropper.FormCreate(Sender: TObject);
 begin
   mSettings := TframeDocDropSettings.Create(Self);
-
   FillRuleComboBox(cmbxRuleSrc);
+  
   //mSettings.Parent := Self;
   //mSettings.Align := TAlignLayout.Client;
 end;
