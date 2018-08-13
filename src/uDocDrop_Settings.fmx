@@ -12,18 +12,19 @@ object frameDocDropSettings: TframeDocDropSettings
     TabPosition = PlatformDefault
     Sizes = (
       572s
-      327s)
+      348s)
     object tabItmCommon: TTabItem
       CustomIcon = <
         item
         end>
       IsSelected = True
-      Size.Width = 69.000000000000000000
-      Size.Height = 26.000000000000000000
+      Size.Height = 5.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
       Text = 'Common'
+      ExplicitSize.cx = 69.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
     end
   end
 end

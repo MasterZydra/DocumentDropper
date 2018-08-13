@@ -18,7 +18,7 @@ type
   public
     { Public-Deklarationen }
     constructor Create(AOwner: TComponent); reintroduce;
-    destructor Destroy;
+    destructor Destroy; override;
   end;
 
 implementation

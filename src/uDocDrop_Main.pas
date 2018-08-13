@@ -175,6 +175,11 @@ var
     lLength: Integer;
     lDirectories: TStringDynArray;
     lDirectory: string;
+    lSubFolder: string;
+    lDestPath: string;
+    lFolder: string;
+    lFolders: TStringList;
+    lTempPath: string;
   begin
     for lRule in lstbxRules.Items do
     begin
@@ -202,15 +207,37 @@ var
           lRuleSrcDir := StringReplace(lRuleSrcDir, '%year%', IntToStr(System.SysUtils.CurrentYear), [rfIgnoreCase, rfReplaceAll]);
           lRuleDestDir := StringReplace(lRuleDestDir, '%year%', IntToStr(System.SysUtils.CurrentYear), [rfIgnoreCase, rfReplaceAll]);
 
-          if Matchstrings(lFile, lRuleSrcDir) or
-            Matchstrings(ExtractFileName(lDirectory), Copy(lRuleDestDir, 1, Pos(TPath.DirectorySeparatorChar, lRuleDest) - 1)) then
+          if Matchstrings(lFile, lRuleSrcDir) and
+            ((lRuleDestDir = '') or
+            (lRuleDestDir <> '') and
+            Matchstrings(ExtractFileName(lDirectory), Copy(lRuleDestDir, 1,
+              Pos(TPath.DirectorySeparatorChar, lRuleDest) - 1))) then
           begin
             if lRuleDest = '' then
               TFile.Move(pFile, IncludeTrailingPathDelimiter(lDirectory) + lFile)
             else
             begin
-              TFile.Move(pFile, IncludeTrailingPathDelimiter(lDirectory) +
-                IncludeTrailingPathDelimiter(Copy(lRuleDestDir, Pos(TPath.DirectorySeparatorChar, lRuleDestDir) + 1, Length(lRuleDestDir))) + lFile);
+              lSubFolder := IncludeTrailingPathDelimiter(Copy(lRuleDestDir, Pos(TPath.DirectorySeparatorChar, lRuleDestDir) + 1, Length(lRuleDestDir)));
+              lDestPath := IncludeTrailingPathDelimiter(lDirectory) + lSubFolder;
+
+              // Split -> For loop -> level down and create folders
+              lFolders := TStringList.Create();
+              try
+                Split(TPath.DirectorySeparatorChar, lSubFolder, lFolders);
+                lTempPath := '';
+                for lFolder in lFolders do
+                begin
+                  if lFolder = '' then
+                    Continue;
+                  lTempPath := IncludeTrailingPathDelimiter(lTempPath) + lFolder;
+                  if not DirectoryExists(IncludeTrailingPathDelimiter(lDirectory) + lTempPath) then
+                    if not CreateDir(IncludeTrailingPathDelimiter(lDirectory) + lTempPath) then
+                      ShowMessage('Subfolder could not be created!');
+                end;
+              finally
+                lFolders.Free;
+              end;
+              TFile.Move(pFile, lDestPath + lFile);
             end;
             Exit();
           end;
