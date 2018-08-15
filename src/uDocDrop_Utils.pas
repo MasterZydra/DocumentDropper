@@ -5,23 +5,23 @@ interface
 uses
   FMX.ListBox, System.Classes;
 
-function GetListBoxToString(const pListBox: TListBox): string;
+function GetStringFromStrings(const pStrings: TStrings): string;
 procedure FillListBox(const pListBox: TListBox; const pContent: string);
 procedure Split(const pDelimiter: Char; const pText: string;
   const pStrings: TStrings);
 
 implementation
 
-function GetListBoxToString(const pListBox: TListBox): string;
+function GetStringFromStrings(const pStrings: TStrings): string;
 var
   i: Integer;
 begin
-  for i := 0 to pListBox.Items.Count - 1 do
+  for i := 0 to pStrings.Count - 1 do
   begin
     if i > 0 then
-      Result := Result + ';' + pListBox.Items[i]
+      Result := Result + ';' + pStrings[i]
     else
-      Result := pListBox.Items[i];
+      Result := pStrings[i];
   end;
 end;
 
