@@ -2,4 +2,5 @@ Changelog
 
 V1.0.0
 -—-—-—
-o Rules can be created/edited/deleted visually
+o New: Rules can be created/edited/deleted visually.
+o New: Subfolders get created if they not exist.
