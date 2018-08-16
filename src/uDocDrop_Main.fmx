@@ -305,7 +305,7 @@ object FrmDocumentDropper: TFrmDocumentDropper
       Margins.Top = 3.000000000000000000
       Margins.Right = 3.000000000000000000
       Position.X = 3.000000000000000000
-      Position.Y = 3.000000000000000000
+      Position.Y = 28.000000000000000000
       Size.Width = 123.000000000000000000
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False
@@ -321,7 +321,7 @@ object FrmDocumentDropper: TFrmDocumentDropper
       Margins.Top = 3.000000000000000000
       Margins.Right = 3.000000000000000000
       Position.X = 3.000000000000000000
-      Position.Y = 28.000000000000000000
+      Position.Y = 3.000000000000000000
       Size.Width = 123.000000000000000000
       Size.Height = 22.000000000000000000
       Size.PlatformDefault = False

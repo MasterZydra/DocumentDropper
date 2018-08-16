@@ -5,7 +5,7 @@ interface
 uses
   uDocDrop_Settings,
   uDocDrop_Utils,
-  System.IniFiles, System.IOUtils, System.StrUtils,
+  System.IniFiles, System.IOUtils, System.StrUtils, System.DateUtils,
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
@@ -188,6 +188,9 @@ var
 
           lRuleSrcDir := StringReplace(lRuleSrcDir, '%year%', IntToStr(System.SysUtils.CurrentYear), [rfIgnoreCase, rfReplaceAll]);
           lRuleDestDir := StringReplace(lRuleDestDir, '%year%', IntToStr(System.SysUtils.CurrentYear), [rfIgnoreCase, rfReplaceAll]);
+
+          lRuleSrcDir := StringReplace(lRuleSrcDir, '%month%', IntToStr(MonthOfTheYear(Now)), [rfIgnoreCase, rfReplaceAll]);
+          lRuleDestDir := StringReplace(lRuleDestDir, '%month%', IntToStr(MonthOfTheYear(Now)), [rfIgnoreCase, rfReplaceAll]);
 
           if Matchstrings(lFile, lRuleSrcDir) and
             ((lRuleDestDir = '') or
