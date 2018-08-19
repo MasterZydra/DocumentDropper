@@ -5,6 +5,7 @@ interface
 uses
   uDocDrop_Settings,
   uDocDrop_Utils,
+  uRuleProcessor,
   System.IniFiles, System.IOUtils, System.StrUtils, System.DateUtils,
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
@@ -13,11 +14,6 @@ uses
   FMX.ListBox, FMX.TabControl, FMX.Edit, FMX.ScrollBox, FMX.Memo,
   System.ImageList, FMX.ImgList;
 
-type
-  tRuleType = (rtStartsWith, rtEndsWith, rtContains, rtEquals);
-const
-  cRuleType: array[tRuleType] of string = (
-    'starts with...', 'ends with...', 'contains...', 'equals...');
 type
   TFrmDocumentDropper = class(TForm)
     OpenDialogFiles: TOpenDialog;
@@ -69,9 +65,10 @@ type
   private
     { Private-Deklarationen }
     mSettings: TframeDocDropSettings;
-    mRules: TStringList;
+    mRules: tRuleList;
     procedure FillRuleComboBox(const pComboBox: TComboBox);
     procedure UpdateRuleView;
+    function GuiToRuleString: string;
   public
     { Public-Deklarationen }
   end;
@@ -84,22 +81,8 @@ implementation
 {$R *.fmx}
 
 procedure TFrmDocumentDropper.btnAddRuleClick(Sender: TObject);
-var
-  lRuleType: tRuleType;
-  lRule: string;
 begin
-  lRuleType := tRuleType(cmbxRuleSrc.ItemIndex);
-  case lRuleType of
-    rtStartsWith: lRule := edtRuleSrc.Text + '*';
-    rtEndsWith:   lRule := '*' + edtRuleSrc.Text;
-    rtContains:   lRule := '*' + edtRuleSrc.Text + '*';
-    rtEquals:     lRule := edtRuleSrc.Text;
-  end;
-  if chkbxMoveTo.IsChecked then
-  begin
-    lRule := lRule + ' -> ' + edtRuleDest.Text;
-  end;
-  mRules.Add(lRule);
+  mRules.Add(tRule.Create(GuiToRuleString));
   UpdateRuleView();
 end;
 
@@ -129,7 +112,7 @@ begin
     try
       FillListBox(lstbxSources, lIniFile.ReadString('Sources', 'Pathes', ''));
       FillListBox(lstbxDestinations, lIniFile.ReadString('Destinations', 'Pathes', ''));
-      Split(';', lIniFile.ReadString('Rules', 'Rules', ''), mRules);
+      mRules.FillList(lIniFile.ReadString('Rules', 'Rules', ''));
     finally
       lIniFile.Free();
     end;
@@ -138,21 +121,18 @@ begin
 end;
 
 procedure TFrmDocumentDropper.btnProcessClick(Sender: TObject);
+{TODO -oHeinD -cGeneral : ActionItem}
 var
   lSource: string;
   lFiles: TStringDynArray;
   lFile: string;
   procedure CheckRules(const pFile: string);
   var
+    lRule: tRule;
     lFile: string;
-    lRule: string;
     lDest: string;
-    lRuleSrc: string;
-    lRuleDest: string;
     lRuleSrcDir: string;
     lRuleDestDir: string;
-    lPos: Integer;
-    lLength: Integer;
     lDirectories: TStringDynArray;
     lDirectory: string;
     lSubFolder: string;
@@ -165,40 +145,33 @@ var
     begin
       for lDest in lstbxDestinations.Items do
       begin
-        lPos := Pos('->', lRule);
-        lLength := Length('->');
         lDirectories := TDirectory.GetDirectories(lDest);
-
-        if lPos = 0 then
-        begin
-          lRuleSrc := Trim(lRule);
-          lRuleDest := '';
-        end
-        else
-        begin
-          lRuleSrc := Trim(Copy(lRule, 1, lPos - 1));
-          lRuleDest := Trim(Copy(lRule, lPos + lLength, Length(lRule) - lPos));
-        end;
 
         for lDirectory in lDirectories do
         begin
           lFile := ExtractFileName(pFile);
-          lRuleSrcDir := StringReplace(lRuleSrc, '%dest%', ExtractFileName(lDirectory), [rfIgnoreCase, rfReplaceAll]);
-          lRuleDestDir := StringReplace(lRuleDest, '%dest%', ExtractFileName(lDirectory), [rfIgnoreCase, rfReplaceAll]);
+          lRuleSrcDir := StringReplace(lRule.SourceFilter, '%dest%',
+            ExtractFileName(lDirectory), [rfIgnoreCase, rfReplaceAll]);
+          lRuleDestDir := StringReplace(lRule.Destination, '%dest%',
+            ExtractFileName(lDirectory), [rfIgnoreCase, rfReplaceAll]);
 
-          lRuleSrcDir := StringReplace(lRuleSrcDir, '%year%', IntToStr(System.SysUtils.CurrentYear), [rfIgnoreCase, rfReplaceAll]);
-          lRuleDestDir := StringReplace(lRuleDestDir, '%year%', IntToStr(System.SysUtils.CurrentYear), [rfIgnoreCase, rfReplaceAll]);
+          lRuleSrcDir := StringReplace(lRuleSrcDir, '%year%',
+            IntToStr(System.SysUtils.CurrentYear), [rfIgnoreCase, rfReplaceAll]);
+          lRuleDestDir := StringReplace(lRuleDestDir, '%year%',
+            IntToStr(System.SysUtils.CurrentYear), [rfIgnoreCase, rfReplaceAll]);
 
-          lRuleSrcDir := StringReplace(lRuleSrcDir, '%month%', IntToStr(MonthOfTheYear(Now)), [rfIgnoreCase, rfReplaceAll]);
-          lRuleDestDir := StringReplace(lRuleDestDir, '%month%', IntToStr(MonthOfTheYear(Now)), [rfIgnoreCase, rfReplaceAll]);
+          lRuleSrcDir := StringReplace(lRuleSrcDir, '%month%',
+            IntToStr(MonthOfTheYear(Now)), [rfIgnoreCase, rfReplaceAll]);
+          lRuleDestDir := StringReplace(lRuleDestDir, '%month%',
+            IntToStr(MonthOfTheYear(Now)), [rfIgnoreCase, rfReplaceAll]);
 
           if Matchstrings(lFile, lRuleSrcDir) and
             ((lRuleDestDir = '') or
             (lRuleDestDir <> '') and
             Matchstrings(ExtractFileName(lDirectory), Copy(lRuleDestDir, 1,
-              Pos(TPath.DirectorySeparatorChar, lRuleDest) - 1))) then
+              Pos(TPath.DirectorySeparatorChar, lRule.Destination) - 1))) then
           begin
-            if lRuleDest = '' then
+            if lRule.Destination = '' then
               TFile.Move(pFile, IncludeTrailingPathDelimiter(lDirectory) + lFile)
             else
             begin
@@ -253,15 +226,20 @@ end;
 procedure TFrmDocumentDropper.btnSaveSelectionsClick(Sender: TObject);
 var
   lIniFile: TIniFile;
+  lFileName: string;
 begin
   SaveDialog.Filter := 'Document Dropper Settings (*.dds)|*.dds';
   if SaveDialog.Execute() then
   begin
-    lIniFile := TIniFile.Create(SaveDialog.FileName);
+    lFileName := SaveDialog.FileName;
+    // Add extension
+    if not EndsStr('.dds', lFileName) then
+      lFileName := lFileName + '.dds';
+    lIniFile := TIniFile.Create(lFileName);
     try
       lIniFile.WriteString('Sources', 'Pathes', GetStringFromStrings(lstbxSources.Items));
       lIniFile.WriteString('Destinations', 'Pathes', GetStringFromStrings(lstbxDestinations.Items));
-      lIniFile.WriteString('Rules', 'Rules', GetStringFromStrings(TStrings(mRules)));
+      lIniFile.WriteString('Rules', 'Rules', mRules.RuleString);
     finally
       lIniFile.Free();
     end;
@@ -272,9 +250,11 @@ procedure TFrmDocumentDropper.btnSrcAddDirClick(Sender: TObject);
 var
   lDir: string;
 begin
-  SelectDirectory('Select directory', '', lDir);
-  if lDir <> '' then
-    lstbxSources.Items.Add(lDir);
+  if SelectDirectory('Select directory', '', lDir) then
+  begin
+    if lDir <> '' then
+      lstbxSources.Items.Add(lDir);
+  end;
 end;
 
 procedure TFrmDocumentDropper.btnSrcAddFilesClick(Sender: TObject);
@@ -290,23 +270,8 @@ begin
 end;
 
 procedure TFrmDocumentDropper.btnUpdateRuleClick(Sender: TObject);
-var
-  lRuleType: tRuleType;
-  lRule: string;
 begin
-  mRules.Delete(lstbxRules.ItemIndex);
-  lRuleType := tRuleType(cmbxRuleSrc.ItemIndex);
-  case lRuleType of
-    rtStartsWith: lRule := edtRuleSrc.Text + '*';
-    rtEndsWith:   lRule := '*' + edtRuleSrc.Text;
-    rtContains:   lRule := '*' + edtRuleSrc.Text + '*';
-    rtEquals:     lRule := edtRuleSrc.Text;
-  end;
-  if chkbxMoveTo.IsChecked then
-  begin
-    lRule := lRule + ' -> ' + edtRuleDest.Text;
-  end;
-  mRules.Insert(lstbxRules.ItemIndex, lRule);
+  mRules[lstbxRules.ItemIndex].Rule := GuiToRuleString();
   UpdateRuleView();
 end;
 
@@ -326,7 +291,7 @@ procedure TFrmDocumentDropper.FormCreate(Sender: TObject);
 begin
   mSettings := TframeDocDropSettings.Create(Self);
   FillRuleComboBox(cmbxRuleSrc);
-  mRules := TStringList.Create();
+  mRules := tRuleList.Create(True);
   tbctrlMain.ActiveTab := tbitmSelectSources;
   //mSettings.Parent := Self;
   //mSettings.Align := TAlignLayout.Client;
@@ -336,6 +301,23 @@ procedure TFrmDocumentDropper.FormDestroy(Sender: TObject);
 begin
   mSettings.Free();
   mRules.Free();
+end;
+
+function TFrmDocumentDropper.GuiToRuleString: string;
+var
+  lRuleType: tRuleType;
+begin
+  lRuleType := tRuleType(cmbxRuleSrc.ItemIndex);
+  case lRuleType of
+    rtStartsWith: Result := edtRuleSrc.Text + '*';
+    rtEndsWith:   Result := '*' + edtRuleSrc.Text;
+    rtContains:   Result := '*' + edtRuleSrc.Text + '*';
+    rtEquals:     Result := edtRuleSrc.Text;
+  end;
+  if chkbxMoveTo.IsChecked then
+  begin
+    Result := Result + ' -> ' + edtRuleDest.Text;
+  end;
 end;
 
 procedure TFrmDocumentDropper.lstbxDestinationsKeyDown(Sender: TObject;
@@ -348,39 +330,14 @@ end;
 
 procedure TFrmDocumentDropper.lstbxRulesItemClick(const Sender: TCustomListBox;
   const Item: TListBoxItem);
-var
-  s: string;
-  lPos: Integer;
 begin
-  s := mRules[lstbxRules.ItemIndex];
-  lPos := Pos('->', s);
-  if lPos = 0 then
+  with mRules[lstbxRules.ItemIndex] do
   begin
-    edtRuleSrc.Text := Trim(s);
-    edtRuleDest.Text := '';
-  end
-  else
-  begin
-    edtRuleSrc.Text := Trim(Copy(s, 1, lPos - 1));
-    edtRuleDest.Text := Trim(Copy(s, lPos + 2, Length(s) - lPos));
+    edtRuleSrc.Text := Source;
+    edtRuleDest.Text := Destination;
+    chkbxMoveTo.IsChecked := IsOtherDestination;
+    cmbxRuleSrc.ItemIndex := Ord(RuleType);
   end;
-
-  chkbxMoveTo.IsChecked := edtRuleDest.Text <> '';
-
-  // starts/ends with, contains, equals...
-  if StartsStr('*', edtRuleSrc.Text) then
-  begin
-    if EndsStr('*', edtRuleSrc.Text) then
-      cmbxRuleSrc.ItemIndex :=  Ord(tRuleType.rtContains)
-    else
-      cmbxRuleSrc.ItemIndex :=  Ord(tRuleType.rtEndsWith);
-  end
-  else if EndsText('*', edtRuleSrc.Text) then
-    cmbxRuleSrc.ItemIndex :=  Ord(tRuleType.rtStartsWith)
-  else
-    cmbxRuleSrc.ItemIndex :=  Ord(tRuleType.rtEquals);
-
-  edtRuleSrc.Text := StringReplace(edtRuleSrc.Text, '*', '', [rfReplaceAll]);
 end;
 
 procedure TFrmDocumentDropper.lstbxRulesKeyDown(Sender: TObject; var Key: Word;
@@ -406,48 +363,12 @@ end;
 
 procedure TFrmDocumentDropper.UpdateRuleView;
 var
-  s: string;
-  lRule: string;
-  lPos: Integer;
-  lSrc: string;
-  lDest: string;
+  lRule: tRule;
 begin
   lstbxRules.Clear();
-  for s in mRules do
+  for lRule in mRules do
   begin
-    lPos := Pos('->', s);
-    if lPos = 0 then
-    begin
-      lSrc := Trim(s);
-      lDest := '';
-    end
-    else
-    begin
-      lSrc := Trim(Copy(s, 1, lPos - 1));
-      lDest := Trim(Copy(s, lPos + 2, Length(s) - lPos));
-    end;
-
-    if lDest <> '' then
-    begin
-      lRule := 'Move file to ';
-      lRule := lRule + '"' + lDest + '" ';
-    end
-    else
-      lRule := 'Move file ';
-    // starts/ends with, contains, equals...
-    if StartsStr('*', lSrc) then
-    begin
-      if EndsStr('*', lSrc) then
-        lRule := lRule + 'if name ' + cRuleType[tRuleType.rtContains]
-      else
-        lRule := lRule + 'if name ' + cRuleType[tRuleType.rtEndsWith];
-    end
-    else if EndsText('*', lSrc) then
-      lRule := lRule + 'if name ' + cRuleType[tRuleType.rtStartsWith]
-    else
-      lRule := lRule + 'if name ' + cRuleType[tRuleType.rtEquals];
-    lRule := lRule + ' "' + StringReplace(lSrc, '*', '', [rfReplaceAll]) + '"';
-    lstbxRules.Items.Add(lRule);
+    lstbxRules.Items.Add(lRule.AsString);
   end;
 end;
 
