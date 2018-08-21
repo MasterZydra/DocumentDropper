@@ -1,5 +1,9 @@
 Changelog
 
+V1.0.1
+------
+o Bugfix: Add file extension .dds when saving
+
 V1.0.0
 -—-—-—
 o New: Rules can be created/edited/deleted visually.
