@@ -6,7 +6,7 @@
     <PropertyGroup>
         <DeviceId Condition="'$(Platform)'=='iOSDevice32'"/>
         <DeviceId Condition="'$(Platform)'=='iOSDevice64'"/>
-        <DeviceId Condition="'$(Platform)'=='iOSSimulator'">iPhone5</DeviceId>
+        <DeviceId Condition="'$(Platform)'=='iOSSimulator'">2E205D12-BC0D-48E3-91C1-9DB666664C55</DeviceId>
     </PropertyGroup>
     <ItemGroup Condition="'$(Platform)'=='Win32'">
         <DeployFile Include="Win32\Debug\DocumentDropper.exe" Condition="'$(Config)'=='Debug'">

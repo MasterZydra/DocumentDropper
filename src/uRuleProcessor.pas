@@ -48,11 +48,30 @@ type
     function RuleString: string;
   end;
 
+  function ReplaceVariables(const pSource: string): string;
+
 implementation
+
+const
+  cYear = '%year%';
+  cMonth = '%month%';
 
 resourcestring
   StrMoveFile = 'Move file if name %s "%s"';
   StrMoveFileTo = 'Move file to "%s" if name %s "%s"';
+
+function ReplaceVariables(const pSource: string): string;
+var
+  s: string;
+  procedure ReplaceString(const pOldPattern, pNewPattern: string);
+  begin
+    s := StringReplace(s, pOldPattern, pNewPattern, [rfReplaceAll, rfIgnoreCase]);
+  end;
+begin
+  s := pSource;
+  ReplaceString(cYear, IntToStr(System.SysUtils.CurrentYear));
+  ReplaceString(cMonth, IntToStr(MonthOfTheYear(Now)));
+end;
 
 { tRule }
 
@@ -134,9 +153,7 @@ begin
   Split(';', pRuleString, lRules);
   try
     for s in lRules do
-    begin
       Add(tRule.Create(s));
-    end;
   finally
     lRules.Free;
   end;

@@ -62,6 +62,7 @@ type
     procedure btnUpdateRuleClick(Sender: TObject);
     procedure lstbxRulesItemClick(const Sender: TCustomListBox;
       const Item: TListBoxItem);
+    procedure lstbxRulesChange(Sender: TObject);
   private
     { Private-Deklarationen }
     mSettings: TframeDocDropSettings;
@@ -77,6 +78,12 @@ var
   FrmDocumentDropper: TFrmDocumentDropper;
 
 implementation
+
+const
+  cDestinations = 'Destinations';
+  cSources = 'Sources';
+  cPathes = 'Pathes';
+  cRules = 'Rules';
 
 {$R *.fmx}
 
@@ -110,9 +117,9 @@ begin
   begin
     lIniFile := TIniFile.Create(OpenDialogLoad.FileName);
     try
-      FillListBox(lstbxSources, lIniFile.ReadString('Sources', 'Pathes', ''));
-      FillListBox(lstbxDestinations, lIniFile.ReadString('Destinations', 'Pathes', ''));
-      mRules.FillList(lIniFile.ReadString('Rules', 'Rules', ''));
+      FillListBox(lstbxSources, lIniFile.ReadString(cSources, cPathes, ''));
+      FillListBox(lstbxDestinations, lIniFile.ReadString(cDestinations, cPathes, ''));
+      mRules.FillList(lIniFile.ReadString(cRules, cRules, ''));
     finally
       lIniFile.Free();
     end;
@@ -155,15 +162,8 @@ var
           lRuleDestDir := StringReplace(lRule.Destination, '%dest%',
             ExtractFileName(lDirectory), [rfIgnoreCase, rfReplaceAll]);
 
-          lRuleSrcDir := StringReplace(lRuleSrcDir, '%year%',
-            IntToStr(System.SysUtils.CurrentYear), [rfIgnoreCase, rfReplaceAll]);
-          lRuleDestDir := StringReplace(lRuleDestDir, '%year%',
-            IntToStr(System.SysUtils.CurrentYear), [rfIgnoreCase, rfReplaceAll]);
-
-          lRuleSrcDir := StringReplace(lRuleSrcDir, '%month%',
-            IntToStr(MonthOfTheYear(Now)), [rfIgnoreCase, rfReplaceAll]);
-          lRuleDestDir := StringReplace(lRuleDestDir, '%month%',
-            IntToStr(MonthOfTheYear(Now)), [rfIgnoreCase, rfReplaceAll]);
+          lRuleSrcDir := ReplaceVariables(lRuleSrcDir);
+          lRuleDestDir := ReplaceVariables(lRuleDestDir);
 
           if Matchstrings(lFile, lRuleSrcDir) and
             ((lRuleDestDir = '') or
@@ -211,9 +211,7 @@ begin
       // Directory
       lFiles := TDirectory.GetFiles(lSource);
       for lFile in lFiles do
-      begin
         CheckRules(lFile);
-      end;
     end
     else
     begin
@@ -237,9 +235,9 @@ begin
       lFileName := lFileName + '.dds';
     lIniFile := TIniFile.Create(lFileName);
     try
-      lIniFile.WriteString('Sources', 'Pathes', GetStringFromStrings(lstbxSources.Items));
-      lIniFile.WriteString('Destinations', 'Pathes', GetStringFromStrings(lstbxDestinations.Items));
-      lIniFile.WriteString('Rules', 'Rules', mRules.RuleString);
+      lIniFile.WriteString(cSources, cPathes, GetStringFromStrings(lstbxSources.Items));
+      lIniFile.WriteString(cDestinations, cPathes, GetStringFromStrings(lstbxDestinations.Items));
+      lIniFile.WriteString(cRules, cRules, mRules.RuleString);
     finally
       lIniFile.Free();
     end;
@@ -328,8 +326,7 @@ begin
       lstbxDestinations.Items.Delete(lstbxDestinations.ItemIndex);
 end;
 
-procedure TFrmDocumentDropper.lstbxRulesItemClick(const Sender: TCustomListBox;
-  const Item: TListBoxItem);
+procedure TFrmDocumentDropper.lstbxRulesChange(Sender: TObject);
 begin
   with mRules[lstbxRules.ItemIndex] do
   begin
@@ -338,6 +335,12 @@ begin
     chkbxMoveTo.IsChecked := IsOtherDestination;
     cmbxRuleSrc.ItemIndex := Ord(RuleType);
   end;
+end;
+
+procedure TFrmDocumentDropper.lstbxRulesItemClick(const Sender: TCustomListBox;
+  const Item: TListBoxItem);
+begin
+  lstbxRulesChange(Sender);
 end;
 
 procedure TFrmDocumentDropper.lstbxRulesKeyDown(Sender: TObject; var Key: Word;
