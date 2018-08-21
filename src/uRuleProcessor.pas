@@ -71,6 +71,7 @@ begin
   s := pSource;
   ReplaceString(cYear, IntToStr(System.SysUtils.CurrentYear));
   ReplaceString(cMonth, IntToStr(MonthOfTheYear(Now)));
+  Result := s;
 end;
 
 { tRule }
