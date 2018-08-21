@@ -32,6 +32,7 @@ type
     property Rule: string read FRule write SetRule;
     /// <summary> Condition for file name </summary>
     property SourceFilter: string read FSourceFilter;
+    /// <summary> Condition for file name without wild card </summary>
     property Source: string read FSource;
     /// <summary> Storage location if IsOtherDestination </summary>
     property Destination: string read FDestination;
@@ -78,19 +79,30 @@ begin
     FSourceFilter := Trim(FRule);
     FDestination := '';
   end;
-  FSource := StringReplace(FSourceFilter, '*', '', [rfReplaceAll]);
   // FRuleType
   if StartsStr('*', FSourceFilter) then
   begin
     if EndsStr('*', FSourceFilter) then
-      FRuleType := tRuleType.rtContains
+    begin
+      FRuleType := tRuleType.rtContains;
+      FSource := Copy(FSourceFilter, 2, Length(FSourceFilter) - 2);
+    end
     else
+    begin
       FRuleType := tRuleType.rtEndsWith;
+      FSource := Copy(FSourceFilter, 2, Length(FSourceFilter) - 1);
+    end;
   end
   else if EndsText('*', FSourceFilter) then
-    FRuleType := tRuleType.rtStartsWith
+  begin
+    FRuleType := tRuleType.rtStartsWith;
+    FSource := Copy(FSourceFilter, 1, Length(FSourceFilter) - 1);
+  end
   else
+  begin
     FRuleType := tRuleType.rtEquals;
+    FSource := FSourceFilter;
+  end;
   // FAsString
   if FIsOtherDestination then
   begin
