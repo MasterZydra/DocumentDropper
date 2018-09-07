@@ -14,6 +14,7 @@ const
     'starts with...', 'ends with...', 'contains...', 'equals...');
 
 type
+  /// <summary> Contains all information about a rule  </summary>
   tRule = class(TObject)
   private
     FRule: string;
@@ -23,6 +24,7 @@ type
     FAsString: string;
     FRuleType: tRuleType;
     FIsOtherDestination: Boolean;
+    /// <summary> Process RuleString to single values </summary>
     procedure ParseRule;
     // Setter
     procedure SetRule(const pRule: string);
