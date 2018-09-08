@@ -3,7 +3,6 @@ unit uDocDrop_Main;
 interface
 
 uses
-  uDocDrop_Settings,
   uDocDrop_Utils,
   uRuleProcessor,
   System.IniFiles, System.IOUtils, System.StrUtils, System.DateUtils,
@@ -339,6 +338,10 @@ function TFrmDocumentDropper.GuiToRuleString: string;
 var
   lRuleType: tRuleType;
 begin
+  // Prepare pathes
+  edtRuleSrc.Text := CorrectDirectorySeparator(edtRuleSrc.Text);
+  edtRuleDest.Text := CorrectDirectorySeparator(edtRuleDest.Text);
+  // Create RuleString
   lRuleType := tRuleType(cmbxRuleSrc.ItemIndex);
   case lRuleType of
     rtStartsWith: Result := edtRuleSrc.Text + '*';

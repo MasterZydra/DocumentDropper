@@ -3,16 +3,23 @@ unit uDocDrop_Utils;
 interface
 
 uses
-  FMX.ListBox, System.Classes, System.SysUtils;
+  FMX.ListBox, System.Classes, System.SysUtils, System.IOUtils;
 
 function GetStringFromStrings(const pStrings: TStrings): string;
 procedure FillListBox(const pListBox: TListBox; const pContent: string);
 procedure Split(const pDelimiter: Char; const pText: string;
   const pStrings: TStrings);
 function MatchStrings(Source, pattern: string): Boolean;
+function CorrectDirectorySeparator(const pPath: string): string;
 
 
 implementation
+
+function CorrectDirectorySeparator(const pPath: string): string;
+begin
+  Result := StringReplace(pPath, '/', TPath.DirectorySeparatorChar, [rfReplaceAll]);
+  Result := StringReplace(Result, '\', TPath.DirectorySeparatorChar, [rfReplaceAll]);
+end;
 
 function MatchStrings(Source, pattern: string): Boolean;
 var
