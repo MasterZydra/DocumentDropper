@@ -4,6 +4,8 @@ V1.0.1
 ------
 o Bugfix: Add file extension .dds when saving
 o Bugfix: No removal of wild card inside source filter
+o Optimization: Filter and sort rules. Optimize GUI for it.
+o Optimization: Replace backslash/slash with platform specific trailing character
 
 V1.0.0
 -—-—-—
