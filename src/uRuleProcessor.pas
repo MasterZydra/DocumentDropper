@@ -41,12 +41,16 @@ type
     /// <summary> Returns rule as text for GUI </summary>
     property AsString: string read FAsString;
     property RuleType: tRuleType read FRuleType;
+    /// <summary> Destination differs from destination folder e.g. Subdirectory </summary>
     property IsOtherDestination: Boolean read FIsOtherDestination;
   end;
 
+  /// <summary> A list that contains all rules </summary>
   tRuleList = class(TObjectList<tRule>)
   public
+    /// <summary> Create all tRule objects for given rule string </summary>
     procedure FillList(const pRuleString: string);
+    /// <summary> Returns all rule strings connected by semicolon </summary>
     function RuleString: string;
   end;
 
