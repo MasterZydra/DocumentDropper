@@ -8,6 +8,7 @@ uses
   System.StrUtils, System.DateUtils, System.SysUtils, System.Classes;
 
 type
+  /// <summary> Enum for SourceFilter </summary>
   tRuleType = (rtStartsWith, rtEndsWith, rtContains, rtEquals);
 const
   cRuleType: array[tRuleType] of string = (
@@ -40,6 +41,7 @@ type
     property Destination: string read FDestination;
     /// <summary> Returns rule as text for GUI </summary>
     property AsString: string read FAsString;
+    /// <summary> Enum for SourceFilter </summary>
     property RuleType: tRuleType read FRuleType;
     /// <summary> Destination differs from destination folder e.g. Subdirectory </summary>
     property IsOtherDestination: Boolean read FIsOtherDestination;
