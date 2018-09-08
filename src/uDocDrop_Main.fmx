@@ -2,29 +2,30 @@ object FrmDocumentDropper: TFrmDocumentDropper
   Left = 0
   Top = 0
   Caption = 'Document Dropper'
-  ClientHeight = 478
-  ClientWidth = 771
+  ClientHeight = 458
+  ClientWidth = 758
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnResize = FormResize
   DesignerMasterStyle = 0
   object tbctrlMain: TTabControl
     Align = Client
-    Size.Width = 642.000000000000000000
-    Size.Height = 478.000000000000000000
+    Size.Width = 629.000000000000000000
+    Size.Height = 458.000000000000000000
     Size.PlatformDefault = False
     TabIndex = 2
     TabOrder = 1
     TabPosition = PlatformDefault
     Sizes = (
-      642s
-      452s
-      642s
-      452s
-      642s
-      452s)
+      629s
+      432s
+      629s
+      432s
+      629s
+      432s)
     object tbitmSelectSources: TTabItem
       CustomIcon = <
         item
@@ -44,8 +45,8 @@ object FrmDocumentDropper: TFrmDocumentDropper
         Margins.Top = 3.000000000000000000
         Margins.Right = 3.000000000000000000
         Margins.Bottom = 3.000000000000000000
-        Size.Width = 636.000000000000000000
-        Size.Height = 390.000000000000000000
+        Size.Width = 623.000000000000000000
+        Size.Height = 370.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 2
         DisableFocusEffect = True
@@ -53,8 +54,8 @@ object FrmDocumentDropper: TFrmDocumentDropper
         DefaultItemStyles.GroupHeaderStyle = ''
         DefaultItemStyles.GroupFooterStyle = ''
         OnKeyDown = lstbxSourcesKeyDown
-        Viewport.Width = 632.000000000000000000
-        Viewport.Height = 386.000000000000000000
+        Viewport.Width = 619.000000000000000000
+        Viewport.Height = 366.000000000000000000
       end
       object btnSrcAddFiles: TButton
         Align = Bottom
@@ -63,8 +64,8 @@ object FrmDocumentDropper: TFrmDocumentDropper
         Margins.Right = 3.000000000000000000
         Margins.Bottom = 3.000000000000000000
         Position.X = 3.000000000000000000
-        Position.Y = 399.000000000000000000
-        Size.Width = 636.000000000000000000
+        Position.Y = 379.000000000000000000
+        Size.Width = 623.000000000000000000
         Size.Height = 22.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 1
@@ -78,8 +79,8 @@ object FrmDocumentDropper: TFrmDocumentDropper
         Margins.Right = 3.000000000000000000
         Margins.Bottom = 3.000000000000000000
         Position.X = 3.000000000000000000
-        Position.Y = 427.000000000000000000
-        Size.Width = 636.000000000000000000
+        Position.Y = 407.000000000000000000
+        Size.Width = 623.000000000000000000
         Size.Height = 22.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 3
@@ -106,8 +107,8 @@ object FrmDocumentDropper: TFrmDocumentDropper
         Margins.Top = 3.000000000000000000
         Margins.Right = 3.000000000000000000
         Margins.Bottom = 3.000000000000000000
-        Size.Width = 636.000000000000000000
-        Size.Height = 418.000000000000000000
+        Size.Width = 623.000000000000000000
+        Size.Height = 398.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
         DisableFocusEffect = True
@@ -115,8 +116,8 @@ object FrmDocumentDropper: TFrmDocumentDropper
         DefaultItemStyles.GroupHeaderStyle = ''
         DefaultItemStyles.GroupFooterStyle = ''
         OnKeyDown = lstbxDestinationsKeyDown
-        Viewport.Width = 632.000000000000000000
-        Viewport.Height = 414.000000000000000000
+        Viewport.Width = 619.000000000000000000
+        Viewport.Height = 394.000000000000000000
       end
       object btnDestAddDir: TButton
         Align = Bottom
@@ -125,8 +126,8 @@ object FrmDocumentDropper: TFrmDocumentDropper
         Margins.Right = 3.000000000000000000
         Margins.Bottom = 3.000000000000000000
         Position.X = 3.000000000000000000
-        Position.Y = 427.000000000000000000
-        Size.Width = 636.000000000000000000
+        Position.Y = 407.000000000000000000
+        Size.Width = 623.000000000000000000
         Size.Height = 22.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 1
@@ -147,27 +148,12 @@ object FrmDocumentDropper: TFrmDocumentDropper
       Text = 'Rules'
       ExplicitSize.cx = 86.000000000000000000
       ExplicitSize.cy = 26.000000000000000000
-      object btnAddRule: TButton
-        Align = Bottom
-        Margins.Left = 3.000000000000000000
-        Margins.Top = 3.000000000000000000
-        Margins.Right = 3.000000000000000000
-        Position.X = 3.000000000000000000
-        Position.Y = 377.000000000000000000
-        Size.Width = 636.000000000000000000
-        Size.Height = 22.000000000000000000
-        Size.PlatformDefault = False
-        TabOrder = 1
-        Text = 'Add Rule'
-        OnClick = btnAddRuleClick
-      end
       object lstbxRules: TListBox
         Align = Client
         Margins.Left = 3.000000000000000000
-        Margins.Top = 3.000000000000000000
         Margins.Right = 3.000000000000000000
-        Size.Width = 636.000000000000000000
-        Size.Height = 340.000000000000000000
+        Size.Width = 623.000000000000000000
+        Size.Height = 323.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
         DisableFocusEffect = True
@@ -177,125 +163,220 @@ object FrmDocumentDropper: TFrmDocumentDropper
         OnChange = lstbxRulesChange
         OnKeyDown = lstbxRulesKeyDown
         OnItemClick = lstbxRulesItemClick
-        Viewport.Width = 632.000000000000000000
-        Viewport.Height = 336.000000000000000000
+        Viewport.Width = 619.000000000000000000
+        Viewport.Height = 319.000000000000000000
       end
-      object pnlRule: TPanel
-        Align = Bottom
+      object LayoutFilterSort: TLayout
+        Align = Top
         Padding.Left = 3.000000000000000000
         Padding.Top = 3.000000000000000000
         Padding.Right = 3.000000000000000000
         Padding.Bottom = 3.000000000000000000
-        Margins.Left = 3.000000000000000000
         Margins.Top = 3.000000000000000000
-        Margins.Right = 3.000000000000000000
-        Position.X = 3.000000000000000000
-        Position.Y = 346.000000000000000000
-        Size.Width = 636.000000000000000000
+        Position.Y = 3.000000000000000000
+        Size.Width = 629.000000000000000000
         Size.Height = 28.000000000000000000
         Size.PlatformDefault = False
-        TabOrder = 4
-        object lblRuleFilename: TLabel
+        TabOrder = 3
+        object lblFilter: TLabel
           Align = Left
           Position.X = 3.000000000000000000
           Position.Y = 3.000000000000000000
-          Size.Width = 62.000000000000000000
+          Size.Width = 38.000000000000000000
           Size.Height = 22.000000000000000000
           Size.PlatformDefault = False
-          Text = 'File name'
-          TabOrder = 7
+          Text = 'Filter:'
+          TabOrder = 5
         end
-        object cmbxRuleSrc: TComboBox
+        object edtRuleFilter: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
           Align = Left
+          TabOrder = 3
+          Position.X = 41.000000000000000000
+          Position.Y = 3.000000000000000000
+          Margins.Right = 3.000000000000000000
+          Size.Width = 150.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          OnKeyDown = edtRuleFilterKeyDown
+        end
+        object cmbxRuleFilter: TComboBox
+          Align = Left
+          Items.Strings = (
+            'Everywhere'
+            'Source'
+            'Destination')
+          ItemIndex = 0
+          Position.X = 194.000000000000000000
+          Position.Y = 3.000000000000000000
+          Size.Width = 109.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 2
+        end
+        object lblSortBy: TLabel
+          Align = Right
           Margins.Left = 3.000000000000000000
-          Position.X = 68.000000000000000000
+          Position.X = 475.000000000000000000
+          Position.Y = 3.000000000000000000
+          Size.Width = 46.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          Text = 'Sort by'
+          TabOrder = 1
+        end
+        object cmbxSort: TComboBox
+          Align = Right
+          Items.Strings = (
+            'Source'
+            'Destination')
+          ItemIndex = 0
+          Position.X = 521.000000000000000000
           Position.Y = 3.000000000000000000
           Size.Width = 105.000000000000000000
           Size.Height = 22.000000000000000000
           Size.PlatformDefault = False
-          TabOrder = 1
-        end
-        object edtRuleSrc: TEdit
-          Touch.InteractiveGestures = [LongTap, DoubleTap]
-          Align = Left
           TabOrder = 0
-          Position.X = 176.000000000000000000
-          Position.Y = 3.000000000000000000
-          Margins.Left = 3.000000000000000000
-          Size.Width = 180.000000000000000000
-          Size.Height = 22.000000000000000000
-          Size.PlatformDefault = False
-        end
-        object chkbxMoveTo: TCheckBox
-          Align = Left
-          Margins.Left = 5.000000000000000000
-          Position.X = 361.000000000000000000
-          Position.Y = 3.000000000000000000
-          Size.Width = 71.000000000000000000
-          Size.Height = 22.000000000000000000
-          Size.PlatformDefault = False
-          TabOrder = 5
-          Text = 'move to'
-        end
-        object edtRuleDest: TEdit
-          Touch.InteractiveGestures = [LongTap, DoubleTap]
-          Align = Left
-          TabOrder = 4
-          Position.X = 432.000000000000000000
-          Position.Y = 3.000000000000000000
-          Size.Width = 180.000000000000000000
-          Size.Height = 22.000000000000000000
-          Size.PlatformDefault = False
+          OnChange = cmbxSortChange
         end
       end
-      object btnDeleteRule: TButton
+      object LayoutRule: TLayout
         Align = Bottom
-        Margins.Left = 3.000000000000000000
-        Margins.Top = 3.000000000000000000
-        Margins.Right = 3.000000000000000000
-        Position.X = 3.000000000000000000
-        Position.Y = 402.000000000000000000
-        Size.Width = 636.000000000000000000
-        Size.Height = 22.000000000000000000
+        Position.Y = 354.000000000000000000
+        Size.Width = 629.000000000000000000
+        Size.Height = 78.000000000000000000
         Size.PlatformDefault = False
-        TabOrder = 5
-        Text = 'Delete Rule'
-        OnClick = btnDeleteRuleClick
-      end
-      object btnUpdateRule: TButton
-        Align = Bottom
-        Margins.Left = 3.000000000000000000
-        Margins.Top = 3.000000000000000000
-        Margins.Right = 3.000000000000000000
-        Margins.Bottom = 3.000000000000000000
-        Position.X = 3.000000000000000000
-        Position.Y = 427.000000000000000000
-        Size.Width = 636.000000000000000000
-        Size.Height = 22.000000000000000000
-        Size.PlatformDefault = False
-        TabOrder = 6
-        Text = 'Update Rule'
-        OnClick = btnUpdateRuleClick
+        TabOrder = 4
+        object LayoutButtons: TLayout
+          Align = Top
+          Padding.Left = 3.000000000000000000
+          Padding.Right = 3.000000000000000000
+          Padding.Bottom = 3.000000000000000000
+          Position.Y = 53.000000000000000000
+          Size.Width = 629.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          object btnAddRule: TButton
+            Align = Left
+            Position.X = 3.000000000000000000
+            Size.Width = 90.000000000000000000
+            Size.Height = 22.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 1
+            Text = 'Add Rule'
+            OnClick = btnAddRuleClick
+          end
+          object btnDeleteRule: TButton
+            Align = Left
+            Margins.Left = 3.000000000000000000
+            Position.X = 96.000000000000000000
+            Size.Width = 90.000000000000000000
+            Size.Height = 22.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 5
+            Text = 'Delete Rule'
+            OnClick = btnDeleteRuleClick
+          end
+          object btnUpdateRule: TButton
+            Align = Left
+            Margins.Left = 3.000000000000000000
+            Position.X = 189.000000000000000000
+            Size.Width = 90.000000000000000000
+            Size.Height = 22.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 4
+            Text = 'Update Rule'
+            OnClick = btnUpdateRuleClick
+          end
+        end
+        object LayoutRuleDestination: TLayout
+          Align = Top
+          Padding.Left = 3.000000000000000000
+          Padding.Right = 3.000000000000000000
+          Padding.Bottom = 3.000000000000000000
+          Position.Y = 28.000000000000000000
+          Size.Width = 629.000000000000000000
+          Size.Height = 25.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          object chkbxMoveTo: TCheckBox
+            Align = Left
+            Position.X = 3.000000000000000000
+            Size.Width = 71.000000000000000000
+            Size.Height = 22.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 3
+            Text = 'move to'
+          end
+          object edtRuleDest: TEdit
+            Touch.InteractiveGestures = [LongTap, DoubleTap]
+            Align = Client
+            TabOrder = 2
+            Size.Width = 552.000000000000000000
+            Size.Height = 22.000000000000000000
+            Size.PlatformDefault = False
+          end
+        end
+        object LayoutRuleSource: TLayout
+          Align = Top
+          Padding.Left = 3.000000000000000000
+          Padding.Top = 3.000000000000000000
+          Padding.Right = 3.000000000000000000
+          Padding.Bottom = 3.000000000000000000
+          Size.Width = 629.000000000000000000
+          Size.Height = 28.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 2
+          object lblFileName: TLabel
+            Align = Left
+            Position.X = 3.000000000000000000
+            Position.Y = 3.000000000000000000
+            Size.Width = 60.000000000000000000
+            Size.Height = 22.000000000000000000
+            Size.PlatformDefault = False
+            Text = 'File name'
+            TabOrder = 9
+          end
+          object cmbxRuleSrc: TComboBox
+            Align = Left
+            Position.X = 63.000000000000000000
+            Position.Y = 3.000000000000000000
+            Size.Width = 106.000000000000000000
+            Size.Height = 22.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 1
+          end
+          object edtRuleSrc: TEdit
+            Touch.InteractiveGestures = [LongTap, DoubleTap]
+            Align = Client
+            TabOrder = 0
+            Margins.Left = 3.000000000000000000
+            Size.Width = 454.000000000000000000
+            Size.Height = 22.000000000000000000
+            Size.PlatformDefault = False
+          end
+        end
       end
     end
   end
   object OpenDialogFiles: TOpenDialog
     Options = [ofHideReadOnly, ofAllowMultiSelect, ofPathMustExist, ofFileMustExist, ofEnableSizing]
-    Left = 256
-    Top = 8
+    Left = 40
+    Top = 120
   end
   object SaveDialog: TSaveDialog
-    Left = 160
-    Top = 96
+    Left = 48
+    Top = 264
   end
   object OpenDialogLoad: TOpenDialog
-    Left = 160
-    Top = 40
+    Left = 40
+    Top = 200
   end
   object pnlBtns: TPanel
     Align = Left
     Size.Width = 129.000000000000000000
-    Size.Height = 478.000000000000000000
+    Size.Height = 458.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 6
     object btnLoadSelection: TButton
@@ -358,53 +439,53 @@ object FrmDocumentDropper: TFrmDocumentDropper
             PNG = {
               89504E470D0A1A0A0000000D4948445200000020000000200806000000737A7A
               F4000000017352474200AECE1CE90000000467414D410000B18F0BFC61050000
-              05C5494441545847AD575B6C544518FEE69CB3BBBD17FA5013314162BC244013
-              C1982831804AA251132825461F7CC0C498102C06120384A82482313EA0566378
-              C044A1DD4ACB4231180A5182C12B6A8908956A68B904B6A5B4DDED6DBB7BF6F8
-              FD7376BBA7ED6E718B5FF275CFCC9C99F9FECBFC67AA901FACFDA1D04143A967
-              9C64124EAA333B645481EF2261DB879EAFA9A96147420FDD064A9B4321275F84
-              C361675F307880F34D77990C8CD4EF7F4501D7D30F173BBBD0D9752927655CB0
-              B7BE1E65A5E57862D9D255FB820DFBD9354144BE0254DAED8661DC9202C51014
-              1406505C5C8AC7972E9B22225F01E3900D4CD3CC49AF80D1580C2525C564293D
-              B19C2282E322662CC0E4C29260D3318D8240605C4479D92C3CB97CF9AAFAC6C6
-              831CB2F21790CA019A09452B7392E382D91515A80F06C1E4C5BE860634859A51
-              59598980DFFF2C870BF33D8695FB9B9BC335D5D50887BBB57B734192B558DC5E
-              5C9CEA9988260A5A535D5D39E31064B5DA43831E181E1E4177CF8D7186BB853D
-              EE02AE27D5CC937052BCB3D1A4908974FBBC988100D7EDCA54949F1F0D93DEE1
-              3C2FF21740CB04A6E251A303F3A5CCF34256F39DD9B5A4C7B18C72A9EF6E0D4F
-              43941BB06DF5D5E2DA93ABD851F165A825BC66E573188844F4B82C2A701CF936
-              78E7E6467959199A0E1CC09AD5ABEF90F6ACB6BAC71C27D1E138A3E71D67A43D
-              C35192FD6D1F2D91954BC9CA60E888AEEFD1C89033321477EC98A329CF83D121
-              271289DE92029E2659539F02BFB63C11C758FB4EC4FE7A2F43B611ED823D16C3
-              990F1F899CFDE0C170DA48BFBF9025D642D55B4A539E7DBE429DFDD9E2EFA517
-              991C48C6E1283F7B020C70017F49558064AC178BD635A26A5D10F3D737C174DC
-              29FE80C282AD0A476A3FD69467E90B5885CC746B4AECBDF422D37262CC509F4B
-              23F56BF991ECFD0EE8AC43D5F6B958B4FD1E94F82AF4EB0BB728B46CD881AFCF
-              AED394E7059B15388522022C94DC8CD666A3172901EC4CF2AE603043E59C8ED3
-              A237B8225DEB6733B4E1756C3BFD30166F53086DDC84E3E7B650246793C7F81C
-              DAF89A1641FDB4D4E281E1B19BC289A7202540201E90F84DA42122B8A2A4C988
-              DD8FCFD7AFC5DEDA57F0CDB9F7F5C67A38C584EA1BFF54183CEFD9AC3773D601
-              274E53A84EA83D3189441CFD3871610F4E76EC86A29542C8E6749262EAD47EF6
-              05FE7C970A440495C8B7221BBD480990CE384CCBC718FA6105FCF0A568904C79
-              4EE49AB450AC964D850E756911641D3FAEAD9B52E6F35DD33261D1A393297705
-              F71D5748C6032A41D10AE78FFF8C5F1B5B71BAF1A8E66FE485E051FD7ED2BC39
-              C172F915EB778780B677529B7B2193263385F485456C2164C046B47780F966E0
-              A117767137DBED67E2C02A01762E84AD288033184A0D594FA2C38447EBE1DF31
-              10EF45DC8EE9AA28D3E4E363283E3BB256DA3BD2A7D01F899C924E57802C480F
-              F45DED46D99CFB198D61D8DD8739852E93CCF515EBE472FC37601679DC26F3D8
-              78F56560EB9E45F865ED66CE1DE1399CCDB0CDC70F7BDEBEF6E81B7FACE55B4C
-              B00990EBF90D72540B606A506E12D16BBD98B378058BCF15C6570A91411114C0
-              14BFFB5E6EB463D4F5A44C4A419EA536C5B4C32894562BDF9DE8BBF4377AA2E6
-              8FECED20A3A417E28E517244E657B6D52D0BCF5F598D732DCDA87AB116F6D025
-              6ABCC9216E2E7FB59F5994E2312665F61B0E1C1A95184392A7C9285D888E632D
-              78F3936F9F6A3871455C3DE8BE3415DA9B529FA3D7AEA062DE7D5CC866CC8678
-              1A99F9AC86201D399A8CABE1633B399683FC1AEA70D1FDCCA7C1ABEDA3DCBC9D
-              8D98EC910B6E3839B1AFAB13E577CDE546034C2CD6720A30B8B950B1ADB32D5D
-              27B291E3CA62F50B9460A0EB02BA070DB17C989CF6DFB18C07AE8751FA0003ED
-              6778E422391316F1B4141561E0F2459CED1A3AC4A5C5FA2CE733039D033F7DBA
-              E29F42244B92099B9E944BC9CC2195EE7A7FFCD4D3DBBE7F89CDABE4B4211001
-              B3C879A4044FDAB70B71B964F06552AE4DD35A241B4A5DA3FFC09AF6BF60FC88
-              91D3C61F00FE05E0737B87194F1A700000000049454E44AE426082}
+              05C6494441545847AD575B6C544518FEE69CB3BB6DB717E8C39A880912E32501
+              9A08C644890154128D9A402931FAE00326C68460319018204425118CF101B51A
+              C303260AED565A168AC17089120C5E514B4440AAA1E512D896D276B7B7EDEED9
+              E3F7CFD9764FDBDDE216BFE4EB9E993933F3FD97F9CF54A130587B2391FD8652
+              CF38E9349C4C676EC8A802DF45CAB60F3C5F5353C38E941EBA0D943547224EA1
+              8846A3CE9E70781FE79BEE32591899DFFF8A22AEA71F2EB677A0BDE3525ECAB8
+              60777D3DCACB2AF0C492C52BF6841BF6B26B9C884205A851B71B86714B0A1443
+              50541C40305886C7172F9924A2500163900D4CD3CC4BAF80E14402A5A541B28C
+              9E584A11E13111D31660726149B0A9388AA240604C4445F90C3CB974E98AFAC6
+              C6FD1CB20A1790C9019A09452BF392E382999595A80F87C1E4C59E860634459A
+              110A8510F0FB9FE57071A1C730B4B7B9395A535D8D68B453BB371F245983E2F6
+              6030D3331E4D14B4AABA3A34ED10E4B4DA43831E181C1C4267D78D31463B855D
+              EE02AE27D5F4937042BC73D1A490F174FBBC988600D7EDCA54945F180D93DEE1
+              3C2F0A1740CB04A6E251A3030BA5CCF34256F39DDEB1A8CBB18C0AA9EF6E0D1F
+              85283760DBEAAB85B52756B0A3F2CB484B74D5F2E7D0178BE9715954E038F26D
+              F0CECD8F8AF27234EDDB87552B57DE21ED19AD758F394EAACD7186CF39CED0F9
+              2C8749F6B77EB448562E2343E1C8215DDFE3B101676820E9D80947539EFBE303
+              4E2C16BF25053C4DB2A63E057E6D792A8991F3DB91F8EBBD2CD946BC03F64802
+              A73F7C2476E68307A3A346FAFDC52CB116AADE529AF2ECF315EBECCF157F2FBD
+              C8E6403A0947F9D91360808BF84BAA22A413DD58B0A611556BC298BBB609A6E3
+              4EF10714E66D563854FBB1A63C4B5FC02A66A65B9362EFA517D996936086FA5C
+              1A995FCB8F74F777407B1DAAB6CEC682ADF7A0D457A95F9FBF49A165DD367C7D
+              668DA63CCFDBA8C029141160A1E466B43617BDC80860679A770583192AE7748C
+              16BDC115E95A3F9B9175AF63CBA987B1708B4264FD061C3BBB8922399B3CCAE7
+              C8FAD7B408EAA7A5160F0C8FDD248E3F05190102F180C46F3C0D11C115254D86
+              EC5E7CBE763576D7BE826FCEBEAF37D6C319A654CFD8A7C2E079CF65BD99B70E
+              38499A427542ED89092492E8C5F10BBB70A26D2714AD144236A7931453A7F6B3
+              2FF0E7BB542022A844BE15B9E84546807426615A3EC6D00F2BE0872F438364CA
+              7322D7A48562B56C2A74A84B8B20EBF8713DB221633EDF352D13163D3A917257
+              70DF7185643DA05214AD70EED8CFF8B5F1084E351ED6FC8DBC103EACDF4F9B37
+              C7592EBF62FDCE08D0FA4E66732F64D24466307A61115B0819B011EFEE63BE19
+              78E8851DDCCD76FB9938B04A81EDF3612B0AE00C865243D693E830E171E4E0EF
+              E84B7623692774559469F2F131149F1D596BD43BD2A7D01B8B9D944E57802C48
+              0FF45CED44F9ACFB198D41D89D0739852E93CCF505757239FE1B304B3C6E9379
+              6CBCFA32B079D702FCB27A23E70EF11CCE64D8E6E2875D6F5F7BF48D3F56F32D
+              26D838C8F5FC0639AC05303528378DF8B56ECC5AB88CC5E70AE32B85C8A0080A
+              608ADF7D2F37DA36EC7A52266520CF529B12DA61144AAB95EF4EF45CFA1B5D71
+              F347F6B69171D20B71C7303924F343AD754BA2739757E36C4B33AA5EAC853D70
+              891A6F72889BCB5FED6716A564824999FB86038746A54690E66932CAE6A3ED68
+              0BDEFCE4DBA71A8E5F1157F7BB2F4D86F6A6D4E7F8B52BA89C731F17B219B301
+              9E46663EAB2148478E26E36AF8D84E8FE421BF863A5C743FF3A9FFEAB9616E7E
+              9E8D84EC910F6E3839B1A7A31D1577CDE6467D4C2CD6720A30B8B950B1ADB36D
+              B44EE422C795C5EA1728455FC70574F69B62F92039E5BF63590F5C8FA2EC0106
+              DACFF0C845723A2CE169292941DFE58B38D33170804B8BF539CE67163A077EFA
+              74D93FC54897A653363D299792E9432ADDF5DEE4C9A7B77CFF129B57C9294320
+              0266907348099EB46F17E272C9E0CBA45C9BA6B4483694BA46FF8135ED7FC1D8
+              1123A78C3F00FC0BDFF27B87EFAA75DC0000000049454E44AE426082}
             FileName = 'E:\Projects\A0001_Document Dropper\res\move_to_folder.png'
           end>
         Name = 'move_to_folder'
@@ -554,7 +635,7 @@ object FrmDocumentDropper: TFrmDocumentDropper
             Name = 'file_save_as'
           end>
       end>
-    Left = 248
-    Top = 104
+    Left = 48
+    Top = 328
   end
 end

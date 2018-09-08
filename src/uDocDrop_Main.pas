@@ -12,7 +12,7 @@ uses
   FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.ListView, FMX.Layouts,
   FMX.ListBox, FMX.TabControl, FMX.Edit, FMX.ScrollBox, FMX.Memo,
-  System.ImageList, FMX.ImgList;
+  System.ImageList, FMX.ImgList, System.Generics.Defaults;
 
 type
   TFrmDocumentDropper = class(TForm)
@@ -28,21 +28,30 @@ type
     SaveDialog: TSaveDialog;
     OpenDialogLoad: TOpenDialog;
     tbitmRule: TTabItem;
-    btnAddRule: TButton;
     ImageList: TImageList;
     pnlBtns: TPanel;
     btnLoadSelection: TButton;
     btnSaveSelections: TButton;
     btnProcess: TButton;
     lstbxRules: TListBox;
-    pnlRule: TPanel;
-    lblRuleFilename: TLabel;
+    LayoutRuleSource: TLayout;
+    lblFileName: TLabel;
     cmbxRuleSrc: TComboBox;
     edtRuleSrc: TEdit;
+    LayoutRuleDestination: TLayout;
     chkbxMoveTo: TCheckBox;
     edtRuleDest: TEdit;
+    LayoutButtons: TLayout;
+    btnAddRule: TButton;
     btnDeleteRule: TButton;
     btnUpdateRule: TButton;
+    LayoutFilterSort: TLayout;
+    lblFilter: TLabel;
+    edtRuleFilter: TEdit;
+    cmbxRuleFilter: TComboBox;
+    lblSortBy: TLabel;
+    cmbxSort: TComboBox;
+    LayoutRule: TLayout;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure btnSrcAddFilesClick(Sender: TObject);
@@ -63,9 +72,13 @@ type
     procedure lstbxRulesItemClick(const Sender: TCustomListBox;
       const Item: TListBoxItem);
     procedure lstbxRulesChange(Sender: TObject);
+    procedure btnRuleFilterClick(Sender: TObject);
+    procedure edtRuleFilterKeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+    procedure cmbxSortChange(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     { Private-Deklarationen }
-    mSettings: TframeDocDropSettings;
     mRules: tRuleList;
     procedure FillRuleComboBox(const pComboBox: TComboBox);
     procedure UpdateRuleView;
@@ -221,6 +234,11 @@ begin
   end;
 end;
 
+procedure TFrmDocumentDropper.btnRuleFilterClick(Sender: TObject);
+begin
+  UpdateRuleView();
+end;
+
 procedure TFrmDocumentDropper.btnSaveSelectionsClick(Sender: TObject);
 var
   lIniFile: TIniFile;
@@ -273,6 +291,18 @@ begin
   UpdateRuleView();
 end;
 
+procedure TFrmDocumentDropper.cmbxSortChange(Sender: TObject);
+begin
+  UpdateRuleView();
+end;
+
+procedure TFrmDocumentDropper.edtRuleFilterKeyDown(Sender: TObject;
+  var Key: Word; var KeyChar: Char; Shift: TShiftState);
+begin
+  if Key = 13 then
+    UpdateRuleView();
+end;
+
 procedure TFrmDocumentDropper.FillRuleComboBox(const pComboBox: TComboBox);
 var
   lRuleType: tRuleType;
@@ -287,18 +317,22 @@ end;
 
 procedure TFrmDocumentDropper.FormCreate(Sender: TObject);
 begin
-  mSettings := TframeDocDropSettings.Create(Self);
   FillRuleComboBox(cmbxRuleSrc);
   mRules := tRuleList.Create(True);
   tbctrlMain.ActiveTab := tbitmSelectSources;
-  //mSettings.Parent := Self;
-  //mSettings.Align := TAlignLayout.Client;
 end;
 
 procedure TFrmDocumentDropper.FormDestroy(Sender: TObject);
 begin
-  mSettings.Free();
   mRules.Free();
+end;
+
+procedure TFrmDocumentDropper.FormResize(Sender: TObject);
+begin
+  if Height < 300 then
+    Height := 300;
+  if Self.Width < 650 then
+    Width := 650;
 end;
 
 function TFrmDocumentDropper.GuiToRuleString: string;
@@ -367,11 +401,52 @@ end;
 procedure TFrmDocumentDropper.UpdateRuleView;
 var
   lRule: tRule;
+  lMatchFilter: Boolean;
 begin
   lstbxRules.Clear();
+  // Sort rules
+  mRules.Sort(TComparer<tRule>.Construct(
+    function (const L, R: tRule): Integer
+    var
+      lL, lR: string;
+    begin
+      case cmbxSort.ItemIndex of
+        0:
+        begin
+          lL := L.SourceFilter;
+          lR := R.SourceFilter;
+        end;
+        1:
+        begin
+          lL := L.Destination;
+          lR := R.Destination;
+        end;
+      end;
+      if lL = lR then
+        Result := 0
+      else if lL < lR then
+        Result := -1
+      else
+        Result := 1;
+    end
+  ));
+  // Output rules
   for lRule in mRules do
   begin
-    lstbxRules.Items.Add(lRule.AsString);
+    // No filter
+    if (edtRuleFilter.Text = '') then
+      lstbxRules.Items.Add(lRule.AsString)
+    else
+    begin
+      lMatchFilter := False;
+      case cmbxRuleFilter.ItemIndex of
+        0: lMatchFilter := ContainsText(lRule.AsString, edtRuleFilter.Text);
+        1: lMatchFilter := ContainsText(lRule.Source, edtRuleFilter.Text);
+        2: lMatchFilter := ContainsText(lRule.Destination, edtRuleFilter.Text);
+      end;
+      if lMatchFilter then
+        lstbxRules.Items.Add(lRule.AsString);
+    end;
   end;
 end;
 
