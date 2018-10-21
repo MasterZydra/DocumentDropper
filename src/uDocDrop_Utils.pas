@@ -57,8 +57,8 @@ var
     end;
   end;
 begin
-  StrPCopy(pSource, Source);
-  StrPCopy(pPattern, pattern);
+  StrPCopy(pSource, LowerCase(Source));
+  StrPCopy(pPattern, LowerCase(pattern));
   Result := MatchPattern(pSource, pPattern);
 end;
 
