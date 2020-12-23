@@ -4,6 +4,12 @@ Document Dropper is a tool that automatically moves files in directories. Rules 
 
 With this program you can select source and destination directories. The definition of rules determines which file is moved to which directory.
 
-For detailed instructions on how to use the application, please visit the [Wiki](https://gitlab.com/ProductivityTools/DocumentDropper/wikis/home).
+For detailed instructions on how to use the application, please visit the [Wiki](https://github.com/MasterZydra/DocumentDropper/wiki).
 
 [![Download Document Dropper](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/document-dropper/files/latest/download)
+
+## Screenshots
+![TabRules_Mac](/res/TabRules_Mac.png)
+![TabRules](/res/TabRules.png)
+![TabSources](/res/TabSource.png)
+![TabDestination](/res/TabDest.png)
